@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using eCommerce.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,8 +33,25 @@ namespace eCommerce
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // Get con string from appsettings.json
+            string connection = Configuration.GetConnectionString("GameDbConnection");
+
+            // Register DB Context
+            // https://docs.microsoft.com/en-us/aspnet/core/data/ef-mvc/intro?view=aspnetcore-2.0#register-the-schoolcontext
+            services.AddDbContext<GameContext>
+                (
+                    options => options.UseSqlServer(connection)
+                );
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+        }
+
+        // Instead of writing the anonymous function (lambda expression)
+        // for the DbContext, you could code a normal function
+        private void ConfigureMyDbContext(DbContextOptionsBuilder options)
+        {
+            options.UseSqlServer(connection);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
