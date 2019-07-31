@@ -51,6 +51,7 @@ namespace eCommerce
         // for the DbContext, you could code a normal function
         private void ConfigureMyDbContext(DbContextOptionsBuilder options)
         {
+            string connection = Configuration.GetConnectionString("GameDbConnection");
             options.UseSqlServer(connection);
         }
 
