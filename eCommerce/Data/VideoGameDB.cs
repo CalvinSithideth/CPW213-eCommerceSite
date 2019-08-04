@@ -17,10 +17,17 @@ namespace eCommerce.Data
         /// </summary>
         /// <param name="game">The game to be added</param>
         /// <param name="context">The DB context to use</param>
-        public static VideoGame Add(VideoGame game, GameContext context)
+        public static async Task<VideoGame> Add(VideoGame game, GameContext context)
         {
-            context.Add(game);
-            context.SaveChanges();
+            /* Async code
+             * Instead of Add and SaveChanges, we use Async versions.
+             * Async methods use await keyword
+             * await keywork must be used in an async method
+             * async methods can only return void and Task<T>
+             * Task<VideoGame> will still return a VideoGame
+             */
+            await context.AddAsync(game);
+            await context.SaveChangesAsync();
             return game;
         }
     }
