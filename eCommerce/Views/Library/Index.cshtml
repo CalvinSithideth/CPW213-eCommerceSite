@@ -10,6 +10,38 @@
 <h1>Browse Game Library</h1>
 
 @*Controller is optional since ASP will assume same controller*@
-<a asp-action="Add" asp-controller="Library">
-    Add Game
-</a>
+
+<p>
+    <a asp-action="Add" asp-controller="Library">
+        Add Game
+    </a>
+</p>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.ID)</th>
+            <th>@Html.DisplayNameFor(m => m.Title)</th>
+            <th>@Html.DisplayNameFor(m => m.Rating)</th>
+            <th>@Html.DisplayNameFor(m => m.Description)</th>
+            <th>@Html.DisplayNameFor(m => m.Price)</th>
+            <th>Links</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (VideoGame game in Model)
+        {
+        <tr>
+            <td>@Html.DisplayFor(m => game.ID)</td>
+            <td>@Html.DisplayFor(m => game.Title)</td>
+            <td>@Html.DisplayFor(m => game.Rating)</td>
+            <td>@Html.DisplayFor(m => game.Description)</td>
+            <td>@Html.DisplayFor(m => game.Price)</td>
+            <td>
+                <a asp-action="Update" asp-controller="Library">Edit</a> | 
+                <a asp-action="Delete" asp-controller="Library">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
