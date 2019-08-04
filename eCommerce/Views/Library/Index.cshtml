@@ -1,0 +1,15 @@
+﻿@model IEnumerable<VideoGame>
+@{
+    ViewData["Title"] = "Game Library";
+}
+@*
+    We want the VideoGame model, but we don't need a list
+    because we want to read the games in a view; not add/delete from it
+*@
+
+<h1>Browse Game Library</h1>
+
+@*Controller is optional since ASP will assume same controller*@
+<a asp-action="Add" asp-controller="Library">
+    Add Game
+</a>
