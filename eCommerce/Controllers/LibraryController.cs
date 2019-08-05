@@ -46,5 +46,25 @@ namespace eCommerce.Controllers
             // Return view with model including error messages
             return View(game);
         }
+
+        public async Task<IActionResult> Update(int id)
+        {
+            VideoGame game = await VideoGameDB.GetGameByID(id, _context);
+
+            return View(game);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(VideoGame game)
+        {
+            if (ModelState.IsValid)
+            {
+                await VideoGameDB.UpdateGame(game, _context);
+                return RedirectToAction("Index");
+            }
+            // If there are any errors, show the user
+            // the form again
+            return View(game);
+        }
     }
 }
