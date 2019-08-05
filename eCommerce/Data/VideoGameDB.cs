@@ -63,6 +63,18 @@ namespace eCommerce.Data
             return game;
         }
 
+        public static async Task DeleteByID(int id, GameContext context)
+        {
+            // Create VideoGame object, with the ID of the game
+            // we want to remove from the database
+            VideoGame game = new VideoGame()
+            {
+                ID = id
+            };
+            context.Entry(game).State = EntityState.Deleted;
+            await context.SaveChangesAsync();
+        }
+
         /// <summary>
         /// Gets a game with a specified ID. If no game is found,
         /// null is returned
