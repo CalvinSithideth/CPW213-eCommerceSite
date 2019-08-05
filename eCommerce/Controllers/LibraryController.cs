@@ -66,5 +66,20 @@ namespace eCommerce.Controllers
             // the form again
             return View(game);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            VideoGame game = await VideoGameDB.GetGameByID(id, _context);
+
+            return View(game);
+        }
+
+        [HttpPost, ActionName("Delete")] // This is how we use the same URL with different methods
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await VideoGameDB.DeleteByID(id, _context);
+            return RedirectToAction("Index");
+        }
     }
 }
