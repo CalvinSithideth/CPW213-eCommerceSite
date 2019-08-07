@@ -13,6 +13,26 @@ namespace eCommerce.Data
     public static class VideoGameDB
     {
         /// <summary>
+        /// Returns 1 page worth of products. Products are
+        /// sorted alphabetically by Title
+        /// </summary>
+        /// <param name="context">The DB context</param>
+        /// <param name="pageNum">The page number for the products</param>
+        /// <param name="pageSize">The number of products per page</param>
+        /// <returns></returns>
+        public static async Task<List<VideoGame>> GetGamesByPage(GameContext context, int pageNum, int pageSize)
+        { // See SQL 'Offset' and 'Fetch'
+            List<VideoGame> games = await
+                context.VideoGames
+                // OrderBy must be called first, else it will sort the result at the end
+                .OrderBy(vg => vg.Title) // Order by title
+                .Skip((pageNum - 1) * pageSize) // SQL Offset - Must be called before Take()
+                .Take(pageSize) // SQL Fetch
+                .ToListAsync();
+            return games;
+        }
+
+        /// <summary>
         /// Adds a VideoGame to the data store and sets
         /// the ID value
         /// </summary>
