@@ -10,7 +10,7 @@ using eCommerce.Data;
 namespace eCommerce.Migrations
 {
     [DbContext(typeof(GameContext))]
-    [Migration("20190812070145_AddedMember")]
+    [Migration("20190812072823_AddedMember")]
     partial class AddedMember
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
