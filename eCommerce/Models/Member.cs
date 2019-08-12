@@ -26,7 +26,6 @@ namespace eCommerce.Models
         [Required]
         [StringLength(100)]
         [Display(Name = "Email address")]
-        [DataType(DataType.EmailAddress)]
         [EmailAddress(ErrorMessage = "That doesn't look like an email")]
         public string EmailAddress { get; set; }
 
