@@ -21,6 +21,13 @@ namespace eCommerce
             Configuration = configuration;
         }
 
+        // You could call services.AddSession(ConfigureSession);
+        //private void ConfigureSession(SessionOptions options)
+        //{
+        //    options.IdleTimeout = TimeSpan.FromMinutes(30);
+        //    options.Cookie.IsEssential = true;
+        //}
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -31,6 +38,18 @@ namespace eCommerce
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            // Configure Session Management
+            // Helper method has replaced this line of code
+            //services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            // Same as above
+            services.AddHttpContextAccessor();
+            services.AddDistributedMemoryCache(); // Stores session in-memory
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.IsEssential = true;
             });
 
             // Get con string from appsettings.json
@@ -72,6 +91,7 @@ namespace eCommerce
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSession(); // Use configured session
 
             app.UseMvc(routes =>
             {

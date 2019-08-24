@@ -23,14 +23,23 @@ namespace eCommerce.Data
             return m;
         }
 
-        public async static Task<bool> IsLoginValid(GameContext context, LoginViewModel model)
+        /// <summary>
+        /// Checks if credentials are found in the daatabase.
+        /// The matching member is returned for valid
+        /// credentials. Null is returned if there are
+        /// no matches
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public async static Task<Member> IsLoginValid(GameContext context, LoginViewModel model)
         {
             return await
                 (from m in context.Members
                  where (m.Username == model.UsernameOrEmail
                      || m.EmailAddress == model.UsernameOrEmail)
                      && m.Password == model.Password
-                 select m).AnyAsync();
+                 select m).SingleOrDefaultAsync();
         }
     }
 }
