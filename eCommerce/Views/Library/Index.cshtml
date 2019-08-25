@@ -38,8 +38,9 @@
             <td>@Html.DisplayFor(m => game.Description)</td>
             <td>@Html.DisplayFor(m => game.Price)</td>
             <td>
-                <a asp-action="Update" asp-controller="Library" asp-route-id="@game.ID">Edit</a> | 
-                <a asp-action="Delete" asp-controller="Library" asp-route-id="@game.ID">Delete</a>
+                <a asp-action="Update" asp-controller="Library" asp-route-id="@game.ID" class="btn btn-secondary">Edit</a> |
+                <a asp-action="Delete" asp-controller="Library" asp-route-id="@game.ID" class="btn btn-danger">Delete</a> |
+                <a asp-action="Add" asp-controller="Cart" asp-route-id="@game.ID" class="btn btn-primary">Add to cart</a>
             </td>
         </tr>
         }
