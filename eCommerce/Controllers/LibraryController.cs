@@ -17,6 +17,14 @@ namespace eCommerce.Controllers
             _context = context;
         }
 
+        [HttpGet] // Want user to bookmark a query
+        public async Task<IActionResult> Search(SearchCriteria criteria)
+        {
+            criteria.GameResults = await VideoGameDB.Search(_context, criteria);
+
+            return View(criteria);
+        }
+
         [HttpGet]
         public async Task<IActionResult> Index(int? id)
         {

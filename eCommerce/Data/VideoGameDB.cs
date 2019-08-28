@@ -123,5 +123,53 @@ namespace eCommerce.Data
                               select row).SingleOrDefaultAsync();
             return game;
         }
+
+        /// <summary>
+        /// Searches for games that match the criteria and
+        /// returns all games that match
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="criteria"></param>
+        /// <returns></returns>
+        public async static Task<List<VideoGame>> Search(GameContext context, SearchCriteria criteria)
+        {
+            // SELECT * FROM VideoGames
+            // This does NOT query the database
+            IQueryable<VideoGame> allGames =
+                from game in context.VideoGames
+                select game;
+
+            if (criteria.MinPrice.HasValue)
+            {   // Add to WHERE clause
+                // Price >= criteria.MinPrice
+                allGames = from game in allGames
+                           where game.Price >= criteria.MinPrice
+                           select game;
+            }
+            if (criteria.MaxPrice.HasValue)
+            {
+                allGames = from game in allGames
+                           where game.Price <= criteria.MaxPrice
+                           select game;
+            }
+            // Need to implement Full-Text Search for a robust search
+            if (!string.IsNullOrWhiteSpace(criteria.Title))
+            {   // WHERE LEFT(Title) = criteria.Title
+                allGames = from game in allGames
+                           // Using StartsWith instead of contains for efficiency
+                           where game.Title.StartsWith(criteria.Title)
+                           select game;
+            }
+            if (!string.IsNullOrWhiteSpace(criteria.Rating))
+            {   // WHERE Rating = criteria.Rating
+                allGames = from game in allGames
+                           where game.Rating == criteria.Rating
+                           select game;
+            }
+
+            // Send final query to database to return results
+            // EF does not send the query to the DB until it has to
+            return await allGames.ToListAsync();
+        }
     }
 }
